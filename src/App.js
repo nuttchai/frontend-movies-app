@@ -1,5 +1,8 @@
 import React, { Fragment } from "react";
 import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Admin from "./components/Admin";
+import Home from "./components/Home";
+import Movies from "./components/Movies";
 
 export default function App() {
   return (
@@ -43,16 +46,4 @@ export default function App() {
       </div>
     </Router>
   );
-}
-
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function Movies() {
-  return <h2>Movies</h2>;
-}
-
-function Admin() {
-  return <h2>Manage Catalogue</h2>;
 }

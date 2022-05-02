@@ -1,9 +1,16 @@
 import React, { Fragment } from "react";
-import { useParams, useRouteMatch } from "react-router-dom";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+  useRouteMatch,
+} from "react-router-dom";
 import Admin from "./components/Admin";
 import Categories from "./components/Categories";
 import Home from "./components/Home";
+import Movie from "./components/Movie";
 import Movies from "./components/Movies";
 
 export default function App() {
@@ -36,16 +43,13 @@ export default function App() {
           <div className="col-md-10">
             {/* Similar with Switch Statement and its ORDER is matter if we don't include "exact" in Route component! */}
             <Switch>
-              <Route path="/movies/:id">
-                <Movie />
-              </Route>
+              <Route path="/movies/:id" component={Movie} />
               <Route path="/movies">
                 <Movies />
               </Route>
               <Route exact path="/by-category">
                 <CategoryPage />
               </Route>
-
               <Route
                 exact
                 path="/by-category/action"
@@ -56,7 +60,6 @@ export default function App() {
                 path="/by-category/drama"
                 render={(props) => <Categories {...props} title={`Drama`} />}
               ></Route>
-
               <Route path="/admin">
                 <Admin />
               </Route>
@@ -71,12 +74,6 @@ export default function App() {
   );
 }
 
-function Movie() {
-  let { id } = useParams();
-
-  return <h2>Movie id: {id}</h2>;
-}
-
 function CategoryPage() {
   // returns an object with the params from the URL
   let { path, url } = useRouteMatch();
@@ -89,7 +86,7 @@ function CategoryPage() {
           <Link to={`${path}/action`}>Action</Link>
         </li>
         <li>
-          <Link to={`${path}/drama`}>Drama</Link>
+          <Link to={`${url}/drama`}>Drama</Link>
         </li>
       </ul>
     </div>

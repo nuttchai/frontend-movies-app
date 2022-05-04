@@ -8,14 +8,42 @@ export default class EditMovie extends Component {
     error: null,
   };
 
-  componentDidMount() {
-    this.setState({
+  constructor(props) {
+    super(props);
+    this.state = {
       movie: {
-        title: "The Godfather",
-        runtime: "175 min",
+        id: 0,
+        title: "",
+        release_date: "",
+        runtime: "",
+        mpaa_rating: "",
+        rating: "",
+        description: "",
       },
-    });
+      isLoaded: false,
+      error: null,
+    };
+
+    this.handleChange = this.handleChange.bind(this); // to handle when input is changed
+    this.handleSubmit = this.handleSubmit.bind(this); // to handle when form is submitted
   }
+
+  handleSubmit = (event) => {
+    console.log("Form was submitted");
+    event.preventDefault(); // prevent page from refreshing
+  };
+
+  handleChange = (event) => {
+    let value = event.target.value;
+    let name = event.target.name;
+    this.setState((prevState) => ({
+      movie: {
+        ...prevState.movie,
+        [name]: value, // [name] is a key/string interpolation which means that the value of the name variable will be used as the key
+      },
+    }));
+  };
+  componentDidMount() {}
 
   render() {
     let { movie } = this.state;
@@ -24,9 +52,16 @@ export default class EditMovie extends Component {
       <Fragment>
         <h2>Add/Edit Movie</h2>
         <hr />
-        <form method="POST">
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="hidden"
+            name="id"
+            id="id"
+            value={movie.id}
+            onChange={this.handleChange}
+          />
           <div className="mb-3">
-            <label for="title" className="form-label">
+            <label htmlFor="title" className="form-label">
               Title
             </label>
             <input
@@ -35,10 +70,11 @@ export default class EditMovie extends Component {
               id="title"
               name="title"
               value={movie.title}
+              onChange={this.handleChange}
             />
           </div>
           <div className="mb-3">
-            <label for="release_date" className="form-label">
+            <label htmlFor="release_date" className="form-label">
               Release Date
             </label>
             <input
@@ -47,10 +83,11 @@ export default class EditMovie extends Component {
               id="release_date"
               name="release_date"
               value={movie.release_date}
+              onChange={this.handleChange}
             />
           </div>
           <div className="mb-3">
-            <label for="runtime" className="form-label">
+            <label htmlFor="runtime" className="form-label">
               Runtime
             </label>
             <input
@@ -59,13 +96,19 @@ export default class EditMovie extends Component {
               id="runtime"
               name="runtime"
               value={movie.runtime}
+              onChange={this.handleChange}
             />
           </div>
           <div className="mb-3">
-            <label for="mpaa_rating" className="form-label">
+            <label htmlFor="mpaa_rating" className="form-label">
               MPAA Rating
             </label>
-            <select className="form-select" value={movie.mpaa_rating}>
+            <select
+              name="mpaa_rating"
+              className="form-select"
+              value={movie.mpaa_rating}
+              onChange={this.handleChange}
+            >
               <option className="form-select">Choose...</option>
               <option className="form-select" value="G">
                 G
@@ -85,7 +128,7 @@ export default class EditMovie extends Component {
             </select>
           </div>
           <div className="mb-3">
-            <label for="rating" className="form-label">
+            <label htmlFor="rating" className="form-label">
               Rating
             </label>
             <input
@@ -94,10 +137,11 @@ export default class EditMovie extends Component {
               id="rating"
               name="rating"
               value={movie.rating}
+              onChange={this.handleChange}
             />
           </div>
           <div className="mb-3">
-            <label for="description" className="form-label">
+            <label htmlFor="description" className="form-label">
               Description
             </label>
             <textarea
@@ -105,13 +149,16 @@ export default class EditMovie extends Component {
               id="description"
               name="description"
               rows="3"
-            >
-              {movie.description}
-            </textarea>
+              onChange={this.handleChange}
+              value={movie.description}
+            />
           </div>
           <hr />
           <button className="btn btn-primary">Save</button>
         </form>
+        <div className="mt-3">
+          <pre>{JSON.stringify(this.state, null, 3)}</pre>
+        </div>
       </Fragment>
     );
   }

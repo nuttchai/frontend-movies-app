@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import "./EditMovie.css";
 import Input from "./form-components/Input";
+import Select from "./form-components/Select";
 import TextArea from "./form-components/TextArea";
 
 export default class EditMovie extends Component {
@@ -24,6 +25,13 @@ export default class EditMovie extends Component {
       },
       isLoaded: false,
       error: null,
+      mpaaOptions: [
+        { id: "G", value: "G" },
+        { id: "PG", value: "PG" },
+        { id: "PG13", value: "PG13" },
+        { id: "R", value: "R" },
+        { id: "NC17", value: "NC17" },
+      ],
     };
 
     this.handleChange = this.handleChange.bind(this); // to handle when input is changed
@@ -78,39 +86,19 @@ export default class EditMovie extends Component {
           />
           <Input
             title="Runtime"
-            type="date"
+            type="text"
             name="runtime"
             value={movie.runtime}
             handleChange={this.handleChange}
           />
-          <div className="mb-3">
-            <label htmlFor="mpaa_rating" className="form-label">
-              MPAA Rating
-            </label>
-            <select
-              name="mpaa_rating"
-              className="form-select"
-              value={movie.mpaa_rating}
-              onChange={this.handleChange}
-            >
-              <option className="form-select">Choose...</option>
-              <option className="form-select" value="G">
-                G
-              </option>
-              <option className="form-select" value="PG">
-                PG
-              </option>
-              <option className="form-select" value="PG13">
-                PG13
-              </option>
-              <option className="form-select" value="R">
-                R
-              </option>
-              <option className="form-select" value="NC17">
-                NC17
-              </option>
-            </select>
-          </div>
+          <Select
+            title="MPAA Rating"
+            name="mpaa_rating"
+            value={movie.mpaa_rating}
+            handleChange={this.handleChange}
+            options={this.state.mpaaOptions}
+            placeholder="Choose..."
+          />
           <Input
             title="Rating"
             type="text"

@@ -6,6 +6,7 @@ export default class Genre extends Component {
     movies: [],
     isLoaded: false,
     error: null,
+    genreName: "",
   };
 
   componentDidMount() {
@@ -23,6 +24,7 @@ export default class Genre extends Component {
           {
             movies: json.movies,
             isLoaded: true,
+            genreName: this.props.location.genreName,
           },
           (error) => {
             this.setState({
@@ -35,7 +37,7 @@ export default class Genre extends Component {
   }
 
   render() {
-    let { movies, isLoaded, error } = this.state;
+    let { movies, isLoaded, error, genreName } = this.state;
 
     if (!movies) {
       movies = [];
@@ -48,7 +50,7 @@ export default class Genre extends Component {
     } else {
       return (
         <Fragment>
-          <h2>Genre: </h2>
+          <h2>Genre: {genreName}</h2>
 
           <div className="list-group">
             {movies.map((m) => (

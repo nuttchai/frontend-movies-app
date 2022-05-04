@@ -5,12 +5,6 @@ import Select from "./form-components/Select";
 import TextArea from "./form-components/TextArea";
 
 export default class EditMovie extends Component {
-  state = {
-    movie: {},
-    isLoaded: false,
-    error: null,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -53,10 +47,56 @@ export default class EditMovie extends Component {
       },
     }));
   };
-  componentDidMount() {}
+
+  componentDidMount() {
+    const id = this.props.match.params.id;
+    if (id > 0) {
+      fetch(`http://localhost:4000/v1/movie/${id}`)
+        .then((response) => {
+          if (response.status !== "200") {
+            let err = Error;
+            err.message = `Invalid response code: ${response.status}`;
+            this.setState({ error: err });
+          }
+          return response.json();
+        })
+        .then((json) => {
+          const releaseDate = new Date(json.movie.release_date);
+
+          this.setState(
+            {
+              movie: {
+                id: id,
+                title: json.movie.title,
+                release_date: releaseDate.toISOString().split("T")[0], // example releaseDate format: 2020-04-20T00:00:00.000Z
+                runtime: json.movie.runtime,
+                mpaa_rating: json.movie.mpaa_rating,
+                description: json.movie.description,
+              },
+              isLoaded: true,
+            },
+            // The second argument that can optionally be passed to setState is a callback function which gets called immediately after the setState is completed and the components get re-rendered
+            (error) => {
+              this.setState({
+                isLoaded: true,
+                error,
+              });
+            }
+          );
+        });
+    } else {
+      this.setState({ isLoaded: true });
+    }
+  }
 
   render() {
-    let { movie } = this.state;
+    let { movie, isLoaded, error } = this.state;
+
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return <div>Loading...</div>;
+    }
 
     return (
       <Fragment>

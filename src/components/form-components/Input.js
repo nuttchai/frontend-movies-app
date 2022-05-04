@@ -5,14 +5,15 @@ const Input = (props) => {
         {props.title}
       </label>
       <input
+        className={`form-control ${props.className}`}
         type={props.type}
-        className="form-control"
         id={props.name}
         name={props.name}
         value={props.value}
         onChange={props.handleChange}
         placeholder={props.placeholder}
       />
+      <div className={props.errorDiv}>{props.errorMsg}</div>
     </div>
   );
 };

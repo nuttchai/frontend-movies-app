@@ -54,7 +54,7 @@ export default class EditMovie extends Component {
 
     const requestOptions = {
       method: "POST",
-      bodt: JSON.stringify(payload),
+      body: JSON.stringify(payload),
     };
 
     fetch("http://localhost:4000/v1/admin/editmovie", requestOptions)

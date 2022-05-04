@@ -50,6 +50,7 @@ export default class EditMovie extends Component {
 
     const data = new FormData(event.target); // create a FormData object from the form
     const payload = Object.fromEntries(data); // convert the FormData object to an object
+    console.log(payload);
 
     const requestOptions = {
       method: "POST",
@@ -98,6 +99,7 @@ export default class EditMovie extends Component {
                 title: json.movie.title,
                 release_date: releaseDate.toISOString().split("T")[0], // example releaseDate format: 2020-04-20T00:00:00.000Z
                 runtime: json.movie.runtime,
+                rating: json.movie.rating,
                 mpaa_rating: json.movie.mpaa_rating,
                 description: json.movie.description,
               },

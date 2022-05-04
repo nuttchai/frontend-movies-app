@@ -12,6 +12,7 @@ import Home from "./components/Home";
 import Movie from "./components/Movie";
 import Movies from "./components/Movies";
 import Genres from "./components/Genres";
+import Genre from "./components/Genre";
 
 export default function App() {
   return (
@@ -47,7 +48,8 @@ export default function App() {
               <Route path="/movies">
                 <Movies />
               </Route>
-              <Route exact path="/genres">
+              <Route path="/genre/:id" component={Genre} />
+              <Route path="/genres">
                 <Genres />
               </Route>
               <Route path="/admin">

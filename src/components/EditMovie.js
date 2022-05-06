@@ -59,7 +59,6 @@ export default class EditMovie extends Component {
 
     const data = new FormData(event.target); // create a FormData object from the form
     const payload = Object.fromEntries(data); // convert the FormData object to an object
-    console.log(payload);
 
     const requestOptions = {
       method: "POST",
@@ -76,13 +75,11 @@ export default class EditMovie extends Component {
               message: data.error.message,
             },
           });
+        } else {
+          this.props.history.push({
+            pathname: "/admin",
+          });
         }
-        this.setState({
-          alert: {
-            type: "alert-success",
-            message: "Changes saved successfully!",
-          },
-        });
       });
   };
 
@@ -144,8 +141,6 @@ export default class EditMovie extends Component {
   }
 
   confirmDelete = (e) => {
-    console.log("would delete movie with id:", this.state.movie.id);
-
     confirmAlert({
       title: "Delete Movie?",
       message: "Are you sure?",
